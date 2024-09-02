@@ -73,7 +73,7 @@ public class CategoryController {
     }
 
 
-    @PutMapping("/{categoryId}/disable")
+    @PutMapping("/{categoryId}/disabled")
     public ResponseEntity<Category> disableOneById(@PathVariable Long categoryId) {
         
         Category category = categoryService.disableOneById(categoryId);

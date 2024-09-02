@@ -3,7 +3,6 @@ package com.security.spring_security.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ import jakarta.validation.Valid;
 
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
@@ -74,7 +73,7 @@ public class ProductController {
     }
 
 
-    @PutMapping("/{productId}/disable")
+    @PutMapping("/{productId}/disabled")
     public ResponseEntity<Product> disableOneById(@PathVariable Long productId) {
         
         Product product = productService.disableOneById(productId);
