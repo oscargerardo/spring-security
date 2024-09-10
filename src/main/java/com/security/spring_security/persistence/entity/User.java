@@ -47,9 +47,9 @@ public class User implements UserDetails {
         if(role.getPermissions() == null){
             return null;
         }
-        return role.getPermissions().stream().map( perm -> {
-            return new SimpleGrantedAuthority(perm.name());
-        }).collect(Collectors.toList());
+        return role.getPermissions().stream().map( perm -> (
+             new SimpleGrantedAuthority(perm.name())
+        )).collect(Collectors.toList());
     }
 
     @Override

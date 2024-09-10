@@ -8,6 +8,9 @@ import com.security.spring_security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class AuthenticateService {
 
@@ -27,10 +30,20 @@ public class AuthenticateService {
         userDTO.setUserName(user.getUsername());
         userDTO.setRol(user.getRole().name());
 
-        String jwt = jwtService.generateToken(user);
+        String jwt = jwtService.generateToken(user, generateExtraClaims(user));
 
         userDTO.setJwt(jwt);
 
         return userDTO;
+    }
+
+    private Map<String, Object> generateExtraClaims(User user){
+        Map<String, Object> extraCliams = new HashMap<>();
+
+        extraCliams.put("name", user.getName());
+        extraCliams.put("role", user.getRole().name());
+        extraCliams.put("authorities", user.getAuthorities());
+
+        return extraCliams;
     }
 }
