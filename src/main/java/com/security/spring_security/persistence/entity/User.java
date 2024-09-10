@@ -3,6 +3,7 @@ package com.security.spring_security.persistence.entity;
 
 
 import com.security.spring_security.persistence.util.Role;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,6 +32,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(unique = true)
     private String userName;
 
     private String name;
