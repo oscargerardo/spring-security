@@ -33,7 +33,7 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(unique = true)
-    private String userName;
+    private String username;
 
     private String name;
 
@@ -58,7 +58,7 @@ public class User implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override

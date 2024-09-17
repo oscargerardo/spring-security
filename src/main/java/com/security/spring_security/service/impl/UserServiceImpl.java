@@ -8,8 +8,10 @@ import com.security.spring_security.persistence.util.Role;
 import com.security.spring_security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
         user.setName(newUser.getUserName());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setRole(Role.ROL_COSTUMER);
-        user.setUserName(newUser.getUserName());
+        user.setUsername(newUser.getUserName());
 
         return userRepository.save(user);
     }
