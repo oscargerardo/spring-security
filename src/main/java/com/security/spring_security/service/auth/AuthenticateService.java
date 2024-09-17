@@ -1,11 +1,17 @@
 package com.security.spring_security.service.auth;
 
 
+import com.security.spring_security.dto.auth.AuthenticationRequest;
+import com.security.spring_security.dto.auth.AuthenticationResponse;
 import com.security.spring_security.dto.RegisterUser;
 import com.security.spring_security.dto.SaveUser;
 import com.security.spring_security.persistence.entity.User;
 import com.security.spring_security.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,6 +25,9 @@ public class AuthenticateService {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public RegisterUser registerCostumer(SaveUser newUser) {
 
@@ -45,5 +54,23 @@ public class AuthenticateService {
         extraCliams.put("authorities", user.getAuthorities());
 
         return extraCliams;
+    }
+
+    public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                authenticationRequest.getUserName(), authenticationRequest.getPassword());
+
+        authenticationManager.authenticate(authentication);
+
+        User user = userService.findByUsername(authenticationRequest.getUserName()).get();
+
+        String jwt = jwtService.generateToken(user, generateExtraClaims(user));
+
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+
+        authenticationResponse.setJwt(jwt);
+
+        return authenticationResponse;
     }
 }

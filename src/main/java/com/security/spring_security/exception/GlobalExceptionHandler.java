@@ -38,4 +38,17 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<?> handleInvalidPasswordExceptionException(InvalidPasswordException exception, HttpServletRequest request){
+
+        ApiError apiError = new ApiError();
+
+        apiError.setBackendMessage(exception.getMessage());
+        apiError.setUrl(request.getRequestURL().toString());
+        apiError.setMethod(request.getMethod());
+        apiError.setMessage("Error en la peticion enviada");
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
 }
