@@ -27,7 +27,7 @@ public class HttpSecurityConfig {
                 .authorizeHttpRequests( authRequestConfig -> {
 
                     //Estos no estan autenticados
-                    authRequestConfig.requestMatchers(HttpMethod.POST,"/custumers").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.POST,"/costumers").permitAll();
                     authRequestConfig.requestMatchers(HttpMethod.POST,"/auth/**").permitAll();
 
                     //Todos los demas request si deben de estar autehnticados

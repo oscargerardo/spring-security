@@ -37,11 +37,11 @@ public class UserServiceImpl implements UserService {
 
     private void validatePassword(SaveUser newUser){
 
-        if(!StringUtils.hasText(newUser.getPassword()) || !StringUtils.hasText(newUser.getRepitedPassword())){
+        if(!StringUtils.hasText(newUser.getPassword()) || !StringUtils.hasText(newUser.getRepetedPassword())){
             throw new InvalidPasswordException("Password don't match");
         }
 
-        if(!newUser.getPassword().equals(newUser.getRepitedPassword())){
+        if(!newUser.getPassword().equals(newUser.getRepetedPassword())){
             throw new InvalidPasswordException("Password don't match");
         }
 

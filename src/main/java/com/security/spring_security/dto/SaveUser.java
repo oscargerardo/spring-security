@@ -18,6 +18,6 @@ public class SaveUser implements Serializable {
     private String password;
 
     @Size(min = 8)
-    private String repitedPassword;
+    private String repetedPassword;
 
 }
