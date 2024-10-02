@@ -28,7 +28,8 @@ public class HttpSecurityConfig {
 
                     //Estos no estan autenticados
                     authRequestConfig.requestMatchers(HttpMethod.POST,"/costumers").permitAll();
-                    authRequestConfig.requestMatchers(HttpMethod.POST,"/auth/**").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
+                    authRequestConfig.requestMatchers(HttpMethod.GET,"/auth/validate").permitAll();
 
                     //Todos los demas request si deben de estar autehnticados
                     authRequestConfig.anyRequest().authenticated();

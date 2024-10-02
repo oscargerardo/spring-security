@@ -27,7 +27,7 @@ public enum Role {
         RolPermission.READ_MY_PROFILE
 
     )),
-    ROL_ASSISTANT_ADMINISTRATOR (Arrays.asList(
+    ROLE_ASSISTANT_ADMINISTRATOR (Arrays.asList(
 
             RolPermission.READ_ALL_PRODUCTS,
             RolPermission.READ_ONE_PRODUCT,
@@ -41,7 +41,7 @@ public enum Role {
 
     )),
 
-    ROL_COSTUMER(List.of(
+    ROLE_CUSTOMER(List.of(
 
             RolPermission.READ_MY_PROFILE
 

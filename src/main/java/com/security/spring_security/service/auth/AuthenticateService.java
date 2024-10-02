@@ -7,7 +7,6 @@ import com.security.spring_security.dto.RegisterUser;
 import com.security.spring_security.dto.SaveUser;
 import com.security.spring_security.persistence.entity.User;
 import com.security.spring_security.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -59,11 +58,11 @@ public class AuthenticateService {
     public AuthenticationResponse login(AuthenticationRequest authenticationRequest) {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getUserName(), authenticationRequest.getPassword());
+                authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
         authenticationManager.authenticate(authentication);
 
-        User user = userService.findByUsername(authenticationRequest.getUserName()).get();
+        User user = userService.findByUsername(authenticationRequest.getUsername()).get();
 
         String jwt = jwtService.generateToken(user, generateExtraClaims(user));
 
@@ -72,5 +71,15 @@ public class AuthenticateService {
         authenticationResponse.setJwt(jwt);
 
         return authenticationResponse;
+    }
+
+    public boolean validateToken(String jwt) {
+        try {
+            jwtService.extractUserName(jwt);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }
