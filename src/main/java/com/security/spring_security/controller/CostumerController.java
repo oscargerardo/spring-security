@@ -2,7 +2,7 @@ package com.security.spring_security.controller;
 
 import com.security.spring_security.dto.RegisterUser;
 import com.security.spring_security.dto.SaveUser;
-import com.security.spring_security.service.auth.AuthenticateService;
+import com.security.spring_security.service.auth.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class CostumerController {
 
     @Autowired
-    private AuthenticateService authenticateService;
+    private AuthenticationService authenticationService;
 
     @PostMapping
     public ResponseEntity<RegisterUser> regirterOne (@RequestBody @Valid SaveUser newUser){
-        RegisterUser registerUser = authenticateService.registerCostumer(newUser);
+        RegisterUser registerUser = authenticationService.registerCostumer(newUser);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(registerUser);
     }
