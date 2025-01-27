@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User createOneCostumer(SaveUser newUser) {
+    public User createOneCustumer(SaveUser newUser) {
 
         validatePassword(newUser);
 

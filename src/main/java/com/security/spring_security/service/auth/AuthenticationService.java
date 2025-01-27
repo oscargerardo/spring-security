@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class AuthenticationService {
 
     public RegisterUser registerCostumer(SaveUser newUser) {
 
-        User user = userService.createOneCostumer(newUser);
+        User user = userService.createOneCustumer(newUser);
 
         RegisterUser userDTO = new RegisterUser();
         userDTO.setId(user.getId());
