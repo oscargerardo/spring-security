@@ -1,7 +1,7 @@
 package com.security.spring_security.config.security;
 
 import com.security.spring_security.config.security.filter.JwtAuthenticationFilter;
-import com.security.spring_security.persistence.util.RolPermission;
+import com.security.spring_security.persistence.util.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,45 +44,56 @@ public class HttpSecurityConfig {
         * AUthorizacion de productos
         */
         authRequestConfig.requestMatchers(HttpMethod.GET, "/products")
-                .hasAuthority(RolPermission.READ_ALL_PRODUCTS.name());
+                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.READ_ALL_PRODUCTS.name());
 
         authRequestConfig.requestMatchers(HttpMethod.GET, "/products/{productId}")
-                .hasAuthority(RolPermission.READ_ONE_PRODUCT.name());
+                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.READ_ONE_PRODUCT.name());
 
         authRequestConfig.requestMatchers(HttpMethod.POST, "/products")
-                .hasAuthority(RolPermission.CREATE_ONE_PRODUCT.name());
+                        .hasRole(Role.ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.CREATE_ONE_PRODUCT.name());
 
         authRequestConfig.requestMatchers(HttpMethod.PUT, "/products/{productId}")
-                .hasAuthority(RolPermission.UPDATE_ONE_PRODUCT.name());
+                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.UPDATE_ONE_PRODUCT.name());
 
         authRequestConfig.requestMatchers(HttpMethod.PUT, "/products/{productId}/disabled")
-                .hasAuthority(RolPermission.DISABLE_ONE_PRODUCT.name());
+                .hasRole(Role.ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.DISABLE_ONE_PRODUCT.name());
 
         /*
         * Authorizacion de categories
         */
 
         authRequestConfig.requestMatchers(HttpMethod.GET, "/categories")
-                .hasAuthority(RolPermission.READ_ALL_CATEGORIES.name());
+                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.READ_ALL_CATEGORIES.name());
 
         authRequestConfig.requestMatchers(HttpMethod.GET, "/categories/{categoriyId}")
-                .hasAuthority(RolPermission.READ_ONE_CATEGORY.name());
+                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.READ_ONE_CATEGORY.name());
 
         authRequestConfig.requestMatchers(HttpMethod.POST, "/categories")
-                .hasAuthority(RolPermission.CREATE_ONE_CATEGORY.name());
+                .hasRole(Role.ADMINISTRATOR.name());
+               //.hasAuthority(RolPermission.CREATE_ONE_CATEGORY.name());
 
         authRequestConfig.requestMatchers(HttpMethod.PUT, "/categories/{categoriyId}")
-                .hasAuthority(RolPermission.UPDATE_ONE_CATEGORY.name());
+                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.UPDATE_ONE_CATEGORY.name());
 
         authRequestConfig.requestMatchers(HttpMethod.PUT, "/categories/{categoriyId}/disabled")
-                .hasAuthority(RolPermission.DISABLE_ONE_CATEGORY.name());
+                .hasRole(Role.ADMINISTRATOR.name());
+                //.hasAuthority(RolPermission.DISABLE_ONE_CATEGORY.name());
 
 
         /*
          *  Profiles
          */
         authRequestConfig.requestMatchers(HttpMethod.GET, "/auth/profile")
-                .hasAuthority(RolPermission.READ_MY_PROFILE.name());
+                .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name(), Role.CUSTOMER.name());
+                //.hasAuthority(RolPermission.READ_MY_PROFILE.name());
 
         /*
         *  Authorizacion de enpints publicos
