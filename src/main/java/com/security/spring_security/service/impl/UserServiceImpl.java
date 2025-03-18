@@ -24,14 +24,14 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User createOneCostumer(SaveUser newUser) {
+    public User createOneCustumer(SaveUser newUser) {
 
         validatePassword(newUser);
 
         User user = new User();
         user.setName(newUser.getUserName());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        user.setRole(Role.ROLE_CUSTOMER);
+        user.setRole(Role.CUSTOMER);
         user.setUsername(newUser.getUserName());
 
         return userRepository.save(user);

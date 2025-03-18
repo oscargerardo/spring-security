@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    User createOneCostumer(SaveUser newUser);
+    User createOneCustumer(SaveUser newUser);
 
     Optional<User> findByUsername(String userName);
 }

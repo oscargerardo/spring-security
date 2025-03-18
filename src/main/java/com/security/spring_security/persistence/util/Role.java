@@ -1,8 +1,6 @@
 package com.security.spring_security.persistence.util;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.List;
 @Getter
 public enum Role {
 
-    ROLE_ADMINISTRATOR (Arrays.asList(
+    ADMINISTRATOR(Arrays.asList(
 
         RolPermission.READ_ALL_PRODUCTS,
         RolPermission.READ_ONE_PRODUCT,
@@ -27,7 +25,7 @@ public enum Role {
         RolPermission.READ_MY_PROFILE
 
     )),
-    ROLE_ASSISTANT_ADMINISTRATOR (Arrays.asList(
+    ASSISTANT_ADMINISTRATOR(Arrays.asList(
 
             RolPermission.READ_ALL_PRODUCTS,
             RolPermission.READ_ONE_PRODUCT,
@@ -41,7 +39,7 @@ public enum Role {
 
     )),
 
-    ROLE_CUSTOMER(List.of(
+    CUSTOMER(List.of(
 
             RolPermission.READ_MY_PROFILE
 
