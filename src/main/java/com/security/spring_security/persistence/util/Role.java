@@ -29,11 +29,11 @@ public enum Role {
 
             RolPermission.READ_ALL_PRODUCTS,
             RolPermission.READ_ONE_PRODUCT,
-            RolPermission.DISABLE_ONE_PRODUCT,
+            RolPermission.UPDATE_ONE_PRODUCT,
 
             RolPermission.READ_ALL_CATEGORIES,
             RolPermission.READ_ONE_CATEGORY,
-            RolPermission.DISABLE_ONE_CATEGORY,
+            RolPermission.UPDATE_ONE_CATEGORY,
 
             RolPermission.READ_MY_PROFILE
 

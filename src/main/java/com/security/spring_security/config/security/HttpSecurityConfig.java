@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
@@ -16,7 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity // Para authorizacion en encabezados
+@EnableMethodSecurity //Para anotaciones en los metodos
 public class HttpSecurityConfig {
 
     @Autowired
@@ -33,16 +35,11 @@ public class HttpSecurityConfig {
                 .sessionManagement( sessMagConfig ->  sessMagConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS) )
                 .authenticationProvider(daoAuthProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(HttpSecurityConfig::buildRequestMatchers)
+                //.authorizeHttpRequests(HttpSecurityConfig::buildRequestMatchersV2)
                 .build();
-
-
-
     }
 
     private static void buildRequestMatchers(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authRequestConfig) {
-        //Estos no estan autenticados
-
         /*
         * AUthorizacion de productos
         */
@@ -103,6 +100,18 @@ public class HttpSecurityConfig {
         /*
         *  Authorizacion de enpints publicos
         */
+        authRequestConfig.requestMatchers(HttpMethod.POST,"/custumers").permitAll();
+        authRequestConfig.requestMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
+        authRequestConfig.requestMatchers(HttpMethod.GET,"/auth/validate").permitAll();
+
+        //Todos los demas request si deben de estar autehnticados
+        authRequestConfig.anyRequest().authenticated();
+    }
+
+    private static void buildRequestMatchersV2(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authRequestConfig) {
+        /*
+         *  Authorizacion de enpints publicos
+         */
         authRequestConfig.requestMatchers(HttpMethod.POST,"/custumers").permitAll();
         authRequestConfig.requestMatchers(HttpMethod.POST,"/auth/authenticate").permitAll();
         authRequestConfig.requestMatchers(HttpMethod.GET,"/auth/validate").permitAll();
