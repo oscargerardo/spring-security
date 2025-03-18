@@ -9,9 +9,11 @@ import com.security.spring_security.dto.SaveProduct;
 import com.security.spring_security.persistence.entity.Product;
 
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface ProductService {
 
+    @PreAuthorize("hasAuthority('READ_ALL_PRODUCTS')")
     Page<Product> findAll(Pageable pageable);
 
     Optional<Product> findOneById(Long productId);
