@@ -36,6 +36,8 @@ public class HttpSecurityConfig {
                 .authorizeHttpRequests(HttpSecurityConfig::buildRequestMatchers)
                 .build();
 
+
+
     }
 
     private static void buildRequestMatchers(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authRequestConfig) {
@@ -53,6 +55,7 @@ public class HttpSecurityConfig {
                 .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
                 //.hasAuthority(RolPermission.READ_ONE_PRODUCT.name());
 
+        
         authRequestConfig.requestMatchers(HttpMethod.POST, "/products")
                         .hasRole(Role.ADMINISTRATOR.name());
                 //.hasAuthority(RolPermission.CREATE_ONE_PRODUCT.name());
