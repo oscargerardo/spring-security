@@ -1,6 +1,8 @@
 package com.security.spring_security.config.security;
 
 import com.security.spring_security.config.security.filter.JwtAuthenticationFilter;
+import com.security.spring_security.config.security.handler.CustomAccessDeniedHandler;
+import com.security.spring_security.config.security.handler.CustomAuthenticationEntryPoint;
 import com.security.spring_security.persistence.util.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,7 +21,7 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
 @EnableWebSecurity // Para authorizacion en encabezados
-@EnableMethodSecurity //Para anotaciones en los metodos
+//@EnableMethodSecurity //Para anotaciones en los metodos
 public class HttpSecurityConfig {
 
     @Autowired
@@ -27,15 +30,25 @@ public class HttpSecurityConfig {
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         return httpSecurity
-                .csrf( csrfConfig -> csrfConfig.disable() )
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement( sessMagConfig ->  sessMagConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS) )
                 .authenticationProvider(daoAuthProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                //.authorizeHttpRequests(HttpSecurityConfig::buildRequestMatchersV2)
+                .authorizeHttpRequests(HttpSecurityConfig::buildRequestMatchers)
+                .exceptionHandling(exceptionConfig -> {
+                    exceptionConfig.authenticationEntryPoint(customAuthenticationEntryPoint);
+                    exceptionConfig.accessDeniedHandler(customAccessDeniedHandler);
+                })
                 .build();
     }
 

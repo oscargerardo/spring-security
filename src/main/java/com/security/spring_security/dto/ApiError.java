@@ -3,6 +3,7 @@ package com.security.spring_security.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
@@ -16,6 +17,7 @@ public class ApiError implements Serializable{
     
     private String method;
 
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime timestamp;
     
 }
