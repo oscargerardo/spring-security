@@ -2,7 +2,7 @@ package com.security.spring_security.controller;
 
 import com.security.spring_security.dto.RegisterUser;
 import com.security.spring_security.dto.SaveUser;
-import com.security.spring_security.persistence.entity.User;
+import com.security.spring_security.persistence.entity.security.User;
 import com.security.spring_security.service.auth.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

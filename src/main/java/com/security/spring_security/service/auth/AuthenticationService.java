@@ -6,7 +6,7 @@ import com.security.spring_security.dto.auth.AuthenticationResponse;
 import com.security.spring_security.dto.RegisterUser;
 import com.security.spring_security.dto.SaveUser;
 import com.security.spring_security.exception.ObjectNotFoundException;
-import com.security.spring_security.persistence.entity.User;
+import com.security.spring_security.persistence.entity.security.User;
 import com.security.spring_security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,7 +38,7 @@ public class AuthenticationService {
         userDTO.setId(user.getId());
         userDTO.setName(user.getName());
         userDTO.setUserName(user.getUsername());
-        userDTO.setRol(user.getRole().name());
+        userDTO.setRole(user.getRole().getName());
 
         String jwt = jwtService.generateToken(user, generateExtraClaims(user));
 
@@ -51,7 +51,7 @@ public class AuthenticationService {
         Map<String, Object> extraCliams = new HashMap<>();
 
         extraCliams.put("name", user.getName());
-        extraCliams.put("role", user.getRole().name());
+        extraCliams.put("role", user.getRole().getName());
         extraCliams.put("authorities", user.getAuthorities());
 
         return extraCliams;

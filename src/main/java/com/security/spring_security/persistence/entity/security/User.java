@@ -1,15 +1,13 @@
-package com.security.spring_security.persistence.entity;
+package com.security.spring_security.persistence.entity.security;
 
 
-
-import com.security.spring_security.persistence.util.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,7 +28,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @Column(unique = true)
@@ -53,10 +52,10 @@ public class User implements UserDetails {
 //        )).collect(Collectors.toList());
 
         List<SimpleGrantedAuthority> authorities = role.getPermissions().stream()
-                .map(Enum::name)
+                .map(each -> each.getOperation().getName())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role.getName()));
         return authorities;
     }
 

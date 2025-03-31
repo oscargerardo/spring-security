@@ -13,7 +13,7 @@ public class RegisterUser implements Serializable {
 
     private String name;
 
-    private String rol;
+    private String role;
 
     private String jwt;
 }

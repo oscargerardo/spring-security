@@ -3,7 +3,7 @@ package com.security.spring_security.controller;
 
 import com.security.spring_security.dto.auth.AuthenticationRequest;
 import com.security.spring_security.dto.auth.AuthenticationResponse;
-import com.security.spring_security.persistence.entity.User;
+import com.security.spring_security.persistence.entity.security.User;
 import com.security.spring_security.service.auth.AuthenticationService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
