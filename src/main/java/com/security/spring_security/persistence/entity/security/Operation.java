@@ -26,7 +26,7 @@ public class Operation {
     private boolean permitAll;
 
     @ManyToOne
-    @JoinColumn(name = "modele_id")
+    @JoinColumn(name = "module_id")
     private Module module;
 
 }
