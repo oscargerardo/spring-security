@@ -9,12 +9,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
@@ -35,6 +37,9 @@ public class HttpSecurityConfig {
     @Autowired
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    @Autowired
+    private AuthorizationManager<RequestAuthorizationContext> authorizationManager;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
@@ -43,7 +48,10 @@ public class HttpSecurityConfig {
                 .sessionManagement( sessMagConfig ->  sessMagConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS) )
                 .authenticationProvider(daoAuthProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(HttpSecurityConfig::buildRequestMatchers)
+                //.authorizeHttpRequests(HttpSecurityConfig::buildRequestMatchers)
+                .authorizeHttpRequests( authReqConfig ->{
+                    authReqConfig.anyRequest().access(authorizationManager);
+                })
                 .exceptionHandling(exceptionConfig -> {
                     exceptionConfig.authenticationEntryPoint(customAuthenticationEntryPoint);
                     exceptionConfig.accessDeniedHandler(customAccessDeniedHandler);
@@ -51,6 +59,11 @@ public class HttpSecurityConfig {
                 .build();
     }
 
+
+    /**
+     * Basado en request matchers
+     * @param authRequestConfig
+     */
     private static void buildRequestMatchers(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authRequestConfig) {
         /*
         * AUthorizacion de productos
@@ -120,6 +133,11 @@ public class HttpSecurityConfig {
         authRequestConfig.anyRequest().authenticated();
     }
 
+
+    /**
+     * Basado en anotaciones
+     * @param authRequestConfig
+     */
     private static void buildRequestMatchersV2(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authRequestConfig) {
         /*
          *  Authorizacion de enpints publicos
